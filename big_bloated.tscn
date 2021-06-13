@@ -1,0 +1,121 @@
+[gd_scene load_steps=18 format=2]
+
+[ext_resource path="res://big_bloated.gd" type="Script" id=1]
+[ext_resource path="res://big_bloated_enemy/Big_bloated_walk.png" type="Texture" id=2]
+[ext_resource path="res://big_bloated_enemy/Big_bloated_death.png" type="Texture" id=3]
+
+[sub_resource type="AtlasTexture" id=11]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 0, 0, 72, 72 )
+
+[sub_resource type="AtlasTexture" id=12]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 72, 0, 72, 72 )
+
+[sub_resource type="AtlasTexture" id=13]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 144, 0, 72, 72 )
+
+[sub_resource type="AtlasTexture" id=14]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 216, 0, 72, 72 )
+
+[sub_resource type="AtlasTexture" id=1]
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( 0, 0, 72, 72 )
+
+[sub_resource type="AtlasTexture" id=2]
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( 72, 0, 72, 72 )
+
+[sub_resource type="AtlasTexture" id=3]
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( 144, 0, 72, 72 )
+
+[sub_resource type="AtlasTexture" id=4]
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( 216, 0, 72, 72 )
+
+[sub_resource type="AtlasTexture" id=5]
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( 288, 0, 72, 72 )
+
+[sub_resource type="AtlasTexture" id=6]
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( 360, 0, 72, 72 )
+
+[sub_resource type="SpriteFrames" id=7]
+animations = [ {
+"frames": [ SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ) ],
+"loop": false,
+"name": "death",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ) ],
+"loop": true,
+"name": "walk",
+"speed": 6.0
+}, {
+"frames": [  ],
+"loop": true,
+"name": "attack",
+"speed": 5.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=8]
+extents = Vector2( 22.1377, 27.4949 )
+
+[sub_resource type="RectangleShape2D" id=9]
+extents = Vector2( 19.9237, 1.4866 )
+
+[sub_resource type="RectangleShape2D" id=10]
+extents = Vector2( 1.50952, 26.2763 )
+
+[node name="big_bloated" type="KinematicBody2D"]
+collision_layer = 16
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( -0.467856, -0.383776 )
+scale = Vector2( 1.30112, 1.22391 )
+frames = SubResource( 7 )
+animation = "walk"
+frame = 3
+playing = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 13.0497, 16.249 )
+shape = SubResource( 8 )
+
+[node name="floor_checker" type="RayCast2D" parent="."]
+enabled = true
+
+[node name="top_checker" type="Area2D" parent="."]
+collision_layer = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="top_checker"]
+position = Vector2( 10.3999, -13.8739 )
+shape = SubResource( 9 )
+
+[node name="side_checker" type="Area2D" parent="."]
+position = Vector2( -32.7579, -3.77977 )
+collision_layer = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="side_checker"]
+position = Vector2( 21.3509, 19.6653 )
+shape = SubResource( 10 )
+[connection signal="body_entered" from="top_checker" to="." method="_on_top_checker_body_entered"]
+[connection signal="body_entered" from="side_checker" to="." method="_on_side_checker_body_entered"]
